@@ -1,0 +1,34 @@
+# Android Studio / IntelliJ
+.idea/
+*.iml
+
+# Local Android SDK configuration
+local.properties
+local.properties.bak-*
+
+# Gradle and build outputs
+.gradle/
+build/
+**/build/
+
+# Native build outputs
+.cxx/
+.externalNativeBuild/
+
+# Generated packages
+*.apk
+*.aab
+dist/
+
+# Local rollback snapshots
+backups/
+
+# Signing material
+*.jks
+*.keystore
+keystore.properties
+signing.properties
+
+# OS files
+.DS_Store
+Thumbs.db
