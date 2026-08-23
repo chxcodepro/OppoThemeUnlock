@@ -67,12 +67,6 @@ jobs:
             echo "enabled=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Require signing secrets for a tagged release
-        if: startsWith(github.ref, 'refs/tags/v') && steps.signing.outputs.enabled != 'true'
-        run: |
-          echo "::error::A v* tag requires all four RELEASE_* signing secrets."
-          exit 1
-
       - name: Decode release keystore
         if: steps.signing.outputs.enabled == 'true'
         shell: bash
@@ -93,13 +87,31 @@ jobs:
           if-no-files-found: error
           retention-days: 30
 
-      - name: Publish GitHub Release
-        if: startsWith(github.ref, 'refs/tags/v') && steps.signing.outputs.enabled == 'true'
-        env:
-          GH_TOKEN: ${{ github.token }}
-          APK_PATH: app/build/outputs/apk/release/OppoOPlusThemeUnlock-1.5.apk
+      - name: Select release APK
+        if: startsWith(github.ref, 'refs/tags/v')
+        id: release_apk
         shell: bash
         run: |
+          if [[ "${{ steps.signing.outputs.enabled }}" == "true" ]]; then
+            apk="$RUNNER_TEMP/OppoOPlusThemeUnlock-1.5.apk"
+            cp app/build/outputs/apk/release/OppoOPlusThemeUnlock-1.5.apk "$apk"
+            echo "build_kind=release-signed" >> "$GITHUB_OUTPUT"
+          else
+            apk="$RUNNER_TEMP/OppoOPlusThemeUnlock-1.5-debug.apk"
+            cp app/build/outputs/apk/debug/OppoOPlusThemeUnlock-1.5.apk "$apk"
+            echo "build_kind=debug-signed" >> "$GITHUB_OUTPUT"
+          fi
+          echo "apk_path=$apk" >> "$GITHUB_OUTPUT"
+
+      - name: Publish GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ github.token }}
+          APK_PATH: ${{ steps.release_apk.outputs.apk_path }}
+          BUILD_KIND: ${{ steps.release_apk.outputs.build_kind }}
+        shell: bash
+        run: |
+          echo "Publishing $BUILD_KIND APK: $APK_PATH"
           if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
             gh release upload "$GITHUB_REF_NAME" "$APK_PATH" --clobber
           else

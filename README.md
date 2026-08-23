@@ -115,7 +115,7 @@ OppoOPlusThemeUnlock-release
 
 ## 发布 GitHub Release
 
-先确保四个签名 Secrets 已配置，然后推送 `v*` 标签：
+推送 `v*` 标签：
 
 ```bash
 git tag v1.5
@@ -125,11 +125,12 @@ git push origin v1.5
 Actions 会：
 
 1. 构建 Debug APK并执行 Lint。
-2. 解码临时 Release Keystore。
-3. 构建签名 Release APK。
-4. 创建对应标签的 GitHub Release 并上传 APK。
+2. 若四个签名 Secrets 已配置，则构建签名 Release APK。
+3. 创建对应标签的 GitHub Release 并上传 APK。
 
-若标签构建缺少任一签名 Secret，工作流会明确失败，避免发布未签名 APK。
+未配置完整签名 Secrets 时，发行版会上传
+`OppoOPlusThemeUnlock-1.5-debug.apk`；配置完整时会上传正式签名的
+`OppoOPlusThemeUnlock-1.5.apk`。
 
 ## 安装
 
