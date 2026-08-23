@@ -1,16 +1,17 @@
 # Oppo / OnePlus 主题商店 LSPosed 模块
 
-![版本](https://img.shields.io/badge/version-1.5-blue)
+![版本](https://img.shields.io/badge/version-0.1-blue)
 ![主题商店](https://img.shields.io/badge/Theme%20Store-17.16.0-green)
 ![构建](https://img.shields.io/badge/build-Gradle%208.7-orange)
 
-适配包名 `com.heytap.themestore`，当前模块版本已还原为 `1.5`。模块入口：
+适配包名 `com.heytap.themestore`，当前模块版本为 `0.1`，Hook 源码基于原始
+`1.5` 版本。模块入口：
 
 ```text
 io.github.Retmon403.oppotheme.MainHook
 ```
 
-1.5 Hook 范围：
+原始 1.5 Hook 范围：
 
 - 会员 DTO 与会员状态层
 - 资源 VIP 权限字段
@@ -50,7 +51,7 @@ sdk.dir=D\:\\path\\to\\Android\\Sdk
 输出：
 
 ```text
-app/build/outputs/apk/debug/OppoOPlusThemeUnlock-1.5.apk
+app/build/outputs/apk/debug/OppoOPlusThemeUnlock-0.1.apk
 ```
 
 ## GitHub Actions
@@ -65,7 +66,7 @@ app/build/outputs/apk/debug/OppoOPlusThemeUnlock-1.5.apk
 普通构建会生成由 Android Debug Key 自动签名的 APK，并上传到该次 Actions 运行的 **Artifacts**：
 
 ```text
-OppoOPlusThemeUnlock-debug
+OppoOPlusThemeUnlock
 ```
 
 ## 配置 Release 签名
@@ -118,8 +119,8 @@ OppoOPlusThemeUnlock-release
 推送 `v*` 标签：
 
 ```bash
-git tag v1.5
-git push origin v1.5
+git tag v0.1
+git push origin v0.1
 ```
 
 Actions 会：
@@ -128,9 +129,8 @@ Actions 会：
 2. 若四个签名 Secrets 已配置，则构建签名 Release APK。
 3. 创建对应标签的 GitHub Release 并上传 APK。
 
-未配置完整签名 Secrets 时，发行版会上传
-`OppoOPlusThemeUnlock-1.5-debug.apk`；配置完整时会上传正式签名的
-`OppoOPlusThemeUnlock-1.5.apk`。
+无论是否配置完整签名 Secrets，发行版文件名均为
+`OppoOPlusThemeUnlock-0.1.apk`；配置完整时使用正式 Release 签名。
 
 ## 安装
 

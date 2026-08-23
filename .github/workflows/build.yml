@@ -43,14 +43,14 @@ jobs:
       - name: Grant Gradle wrapper permission
         run: chmod +x gradlew
 
-      - name: Build debug APK and run lint
+      - name: Build APK and run lint
         run: ./gradlew --no-daemon clean assembleDebug lintDebug
 
-      - name: Upload debug APK
+      - name: Upload APK
         uses: actions/upload-artifact@v7
         with:
-          name: OppoOPlusThemeUnlock-debug
-          path: app/build/outputs/apk/debug/OppoOPlusThemeUnlock-1.5.apk
+          name: OppoOPlusThemeUnlock
+          path: app/build/outputs/apk/debug/OppoOPlusThemeUnlock-0.1.apk
           if-no-files-found: error
           retention-days: 14
 
@@ -83,7 +83,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: OppoOPlusThemeUnlock-release
-          path: app/build/outputs/apk/release/OppoOPlusThemeUnlock-1.5.apk
+          path: app/build/outputs/apk/release/OppoOPlusThemeUnlock-0.1.apk
           if-no-files-found: error
           retention-days: 30
 
@@ -93,13 +93,13 @@ jobs:
         shell: bash
         run: |
           if [[ "${{ steps.signing.outputs.enabled }}" == "true" ]]; then
-            apk="$RUNNER_TEMP/OppoOPlusThemeUnlock-1.5.apk"
-            cp app/build/outputs/apk/release/OppoOPlusThemeUnlock-1.5.apk "$apk"
+            apk="$RUNNER_TEMP/OppoOPlusThemeUnlock-0.1.apk"
+            cp app/build/outputs/apk/release/OppoOPlusThemeUnlock-0.1.apk "$apk"
             echo "build_kind=release-signed" >> "$GITHUB_OUTPUT"
           else
-            apk="$RUNNER_TEMP/OppoOPlusThemeUnlock-1.5-debug.apk"
-            cp app/build/outputs/apk/debug/OppoOPlusThemeUnlock-1.5.apk "$apk"
-            echo "build_kind=debug-signed" >> "$GITHUB_OUTPUT"
+            apk="$RUNNER_TEMP/OppoOPlusThemeUnlock-0.1.apk"
+            cp app/build/outputs/apk/debug/OppoOPlusThemeUnlock-0.1.apk "$apk"
+            echo "build_kind=default-signed" >> "$GITHUB_OUTPUT"
           fi
           echo "apk_path=$apk" >> "$GITHUB_OUTPUT"
 
