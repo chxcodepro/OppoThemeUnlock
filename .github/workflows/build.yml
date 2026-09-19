@@ -39,15 +39,21 @@ jobs:
           distribution: temurin
           java-version: "17"
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Install SDK platform and build-tools
-        run: |
-          sdkmanager "platforms;android-36" "build-tools;34.0.0" "platform-tools"
-
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
+
+      - name: Ensure required SDK components
+        shell: bash
+        run: |
+          # runner 自带 Android SDK 与 cmdline-tools，这里只补齐可能缺失的组件。
+          # 不使用 android-actions/setup-android：它内部会执行 `sdkmanager tools`，
+          # 而新版 cmdline-tools 已移除 tools 包，会导致整个 job 失败。
+          SDKMANAGER="${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager"
+          if [[ ! -x "$SDKMANAGER" ]]; then
+            SDKMANAGER="$(find "${ANDROID_HOME}/cmdline-tools" -name sdkmanager -type f 2>/dev/null | head -n 1)"
+          fi
+          echo "using sdkmanager: ${SDKMANAGER}"
+          "${SDKMANAGER}" --install "platforms;android-34" "build-tools;34.0.0" "platform-tools" 2>&1 | tail -n 5
 
       - name: Grant Gradle wrapper permission
         run: chmod +x gradlew

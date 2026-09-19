@@ -14,9 +14,9 @@ def releaseSigningReady = [releaseStoreFile, releaseKeyAlias, releaseStorePasswo
 android {
     namespace 'io.github.oppotheme.unlock'
 
-    // 本机仅安装 android-36；AGP 8.5 对 36 只告警不报错。
-    // CI 上装的是 34，两者都能编译。
-    compileSdk 36
+    // 34 是 AGP 8.5 的原生支持上限，也是 GitHub runner 必定自带的平台版本。
+    // 用 36 会同时踩到「AGP 未验证」与「runner 缺 platform」两个坑。
+    compileSdk 34
 
     defaultConfig {
         applicationId "io.github.oppotheme.unlock"
