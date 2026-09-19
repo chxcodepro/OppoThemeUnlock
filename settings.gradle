@@ -1,0 +1,21 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        // 传统 Xposed API (de.robv.android.xposed:api) 只在这个仓库发布，
+        // MavenCentral / Google 均无此 artifact
+        maven { url 'https://api.xposed.info/' }
+    }
+}
+
+rootProject.name = "OppoThemeUnlock"
+include ':app'

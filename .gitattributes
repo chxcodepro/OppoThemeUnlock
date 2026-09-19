@@ -1,0 +1,23 @@
+# 统一行尾，避免 Windows 上开发、Linux 上构建时出现
+# "gradlew: /bin/sh^M: bad interpreter" 这类问题。
+
+# 默认：文本文件入库统一 LF，检出随平台
+* text=auto eol=lf
+
+# shell 脚本必须 LF，否则 Linux runner 上无法执行
+gradlew text eol=lf
+*.sh text eol=lf
+
+# Windows 批处理必须 CRLF
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# 二进制，禁止任何转换
+*.jar binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.apk binary
+*.jks binary
+*.keystore binary

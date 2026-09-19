@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 默认作用域：仅主题商店本体 -->
+    <string-array name="xposed_scope">
+        <item>com.heytap.themestore</item>
+    </string-array>
+</resources>

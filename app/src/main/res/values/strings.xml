@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">主题商店解锁</string>
+    <string name="xposed_description">解锁 ColorOS / OxygenOS 主题商店的会员权益与付费资源：主题、壁纸、字体、息屏( AOD )插件、桌面小组件。基于 17.19.1 的真实权限模型实现。</string>
+</resources>
